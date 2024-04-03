@@ -1,9 +1,11 @@
 import uuid
-from datetime import datetime
+import json
+import time
+import logging
+import requests
+from kafka import KafkaProducer
 
 def get_data():
-    import requests
-
     res = requests.get("https://randomuser.me/api/")
     res = res.json()
     res = res['results'][0]
@@ -30,11 +32,6 @@ def format_data(res):
     return data
 
 def stream_data():
-    import json
-    from kafka import KafkaProducer
-    import time
-    import logging
-
     producer = KafkaProducer(bootstrap_servers=['broker:29092'], max_block_ms=5000)
     curr_time = time.time()
 
