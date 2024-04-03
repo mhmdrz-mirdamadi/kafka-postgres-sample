@@ -15,4 +15,3 @@ if __name__ == '__main__':
         res = message.value
         res['label'] = r.word(include_parts_of_speech=["nouns", "adjectives"])
         producer.send('users_label', json.dumps(res).encode('utf-8'))
-        print(f"{res}")

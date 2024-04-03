@@ -98,9 +98,10 @@ services:
 
   postgres:
     image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
+    container_name: postgres
+    hostname: postgres
+    env_file:
+      - .env
     networks:
       - services
     volumes:
@@ -113,6 +114,7 @@ services:
       -c wal_level=archive
       -c archive_mode=on
       -c archive_command='cp %p /var/lib/postgresql/data/archive/%f'
+    restart: always
 
 networks:
   services:
