@@ -46,3 +46,6 @@ def stream_data():
         except Exception as e:
             logging.error(f'An error occured: {e}')
             continue
+
+if __name__ == '__main__':
+    stream_data()
