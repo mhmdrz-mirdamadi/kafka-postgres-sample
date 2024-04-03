@@ -11,7 +11,13 @@ COPY ./requirements.txt .
 RUN python3 -m pip install -r requirements.txt
 
 COPY ./src/ .
-RUN chmod +x docker_entrypoint.sh && \
-    chmod a+x get_data.py
 
-CMD ["./docker_entrypoint.sh"]
+COPY ./cronjob /etc/cron.d/cronjob
+RUN chmod 0644 /etc/cron.d/cronjob
+RUN crontab /etc/cron.d/cronjob
+
+CMD service cron start && \
+    python3 get_data.py & \
+    python3 add_ts.py & \
+    python3 add_label.py & \
+    python3 write_db.py
